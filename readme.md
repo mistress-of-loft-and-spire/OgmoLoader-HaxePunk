@@ -1,17 +1,17 @@
-# Loading Ogmo levels in HaxePunk.
+# Loading Ogmo levels in HaxePunk
 
 This is a detailed guide on the basic usage of Ogmo Editor for making game levels and then loading those in HaxePunk so you can use them in your game!
 
 What this tutorial covers:
 
 
-* Creating a new Ogmo project and all the different project settings
+* [Creating a new Ogmo project and all the different project settings](#creating-a-new-ogmo-project)
 
-* Drawing the level, saving it and the `.oel` format
+* [Drawing the level, saving it and the `.oel` format](#creating-a-level)
 
-* Making your game load the Ogmo level and add all the entities
+* [Making your game load the Ogmo level and add all the entities](#loading-the-level)
 
-* Using a grid for collision detection
+* [Using a grid for collision detection](#grids-and-collision)
 
 
 ## Getting ready for making cool levels!
