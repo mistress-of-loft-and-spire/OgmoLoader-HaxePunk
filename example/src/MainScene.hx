@@ -29,7 +29,7 @@ class MainScene extends Scene
 		fastXml = new haxe.xml.Fast(xml.firstElement());
 		
 		//create new Tilemap and add it to the Scene
-		tilemap = new Tilemap(HXP.getBitmap("graphics/tileset.png"), Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
+		tilemap = new Tilemap("graphics/tileset.png", Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
 		add(new Entity(0, 0, tilemap));
 		
 		//add Tiles
