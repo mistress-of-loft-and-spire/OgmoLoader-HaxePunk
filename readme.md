@@ -1,6 +1,17 @@
 # Loading Ogmo levels in HaxePunk.
 
-This is a short guide on the basic usage of Ogmo Editor for making game levels and then loading those in HaxePunk so you can use them in your game!
+This is a detailed guide on the basic usage of Ogmo Editor for making game levels and then loading those in HaxePunk so you can use them in your game!
+
+What this tutorial covers:
+
+
+* Creating a new Ogmo project and all the different project settings
+
+* Drawing the level, saving it and the `.oel` format
+
+* Making your game load the Ogmo level and add all the entities
+
+* Using a grid for collision detection
 
 
 ## Getting ready for making cool levels!
@@ -30,7 +41,7 @@ This is a short guide on the basic usage of Ogmo Editor for making game levels a
 
 #### III
 
-* On the `Layers` tab you can add new Layers used for drawing tiles and grids and for adding entities. For this project we will use **one layer for the tilemap and one for our entities** (the player).
+* On the `Layers` tab you can add new Layers used for drawing tiles and grids and for adding entities. For this project we will use one layer for the tilemap and one for our entities (the player).
 
 * Create a new layer called `TileLayer` and change it's `Type` to `Tiles`.
 
@@ -139,21 +150,19 @@ This is a short guide on the basic usage of Ogmo Editor for making game levels a
 class MainScene extends Scene
 {
 	
-	private var tilemap:Tilemap;
-	
 	//helper vars for loading .oel level
 	private var xml:Xml;
 	private var fastXml:Fast;
 	
 	override public function begin()
 	{
-	 //when this scene is loaded -> load level file
+	 	//when this scene is loaded -> load level file
 		loadlevel("levels/level1.oel");
 	}
 	
 	public function loadlevel(level:String):Void 
 	{
-			//level loading code will go here!
+		//level loading code will go here!
 	}
 	
 }
@@ -181,7 +190,7 @@ fastXml = new haxe.xml.Fast(xml.firstElement());
 
  ````
 //create new Tilemap and add it to the Scene
-tilemap = new Tilemap("graphics/tileset.png", Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
+var tilemap:Tilemap = new Tilemap("graphics/tileset.png", Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
 add(new Entity(0, 0, tilemap));
 
 //add Tiles
@@ -220,13 +229,58 @@ for (p in fastXml.node.EntityLayer.nodes.Player)
 
 *  And that's it! :D
 
+
+## Grids and collision!
+
+#### I
+
+* You can use grids in your level for collision detection so our player can't walk all over the walls!
+
+* To do that first let's go back to our Ogmo project settings and add a `Grid` layer with these settings:
+
+	![ogmo8](https://cloud.githubusercontent.com/assets/2915643/10497806/43532568-72c8-11e5-8ee4-d8c578a1637a.png)
+
+* As you can see, when you open up `level1.oel` again, there now is a new grid layer. Select it and you can draw collision tiles on it that your player should not be able to pass. Let's add collision to our level walls and maybe also the sign post:
+
+	![ogmo9](https://cloud.githubusercontent.com/assets/2915643/10498866/6ccb93f8-72cd-11e5-9ac1-04f00a383b94.png)
+
+#### II
+
+* Now save the level and back inside our scene, add the following lines of code at the end of the `loadlevel()` function:
+
+	````
+//load collision grid and add it to Scene
+var grid:Grid = new Grid(Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
+grid.loadFromString(fastXml.node.Grid.innerData, "", "\n");
+addMask(grid, "solid");
+````
+
+* The first line creates a new `Grid` mask and sets it's `width` and `height` just like with the tilemap. Then we have to read the `Grid` data using `loadFromString()` again. And lastly we add our grid as a new mask to the scene, also we set the collision type to `solid`!
+
+#### III
+
+* Lastly we'll need to adjust our `Player.hx` to recognize collisions.
+
+* Make sure that somewhere in your `Player` class you set its hitbox via `setHitbox(32,32)`.
+
+* And then you can check for collisions either via `moveBy(speed_x, speed_y, "solid");` or with an if-condition using `if(collide("solid", x, y))`. Just make sure you check for the type `solid`.
+
+#### IV
+
+* When we now test our game, the player will stop in front of walls and if you open up the console you can see the collision masks:
+
+	![ogmo10](https://cloud.githubusercontent.com/assets/2915643/10498867/6cd81c18-72cd-11e5-801b-104c06c0e6c1.png)
+
+* Awesome!
+
+
 ## What's missing
+
+Thanks for reading this guide! I hope it was helpful! Here are a few things that I haven't covered:
 
 * Adding values to entities and levels and reading them 
 
 * Using multiple tile layers
-
-* Grids and collisions!
 
 * Camera stuff
 
@@ -239,3 +293,5 @@ Also check out these links for more useful infos:
 
 * Useful article about the XML format and using it in Haxe and also what Fast is all about:
 http://haxecoder.com/post.php?id=23
+
+* And if you want to use animated tiles in your game, have a look at my AnimatedTilemap class: https://github.com/voec/punk.AnimatedTilemap

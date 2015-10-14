@@ -1,14 +1,13 @@
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Tilemap;
 import com.haxepunk.HXP;
+import com.haxepunk.masks.Grid;
 import com.haxepunk.Scene;
 import haxe.xml.Fast;
 import openfl.Assets;
 
 class MainScene extends Scene
 {
-	
-	private var tilemap:Tilemap;
 	
 	//helper vars for loading .oel level
 	private var xml:Xml;
@@ -29,7 +28,7 @@ class MainScene extends Scene
 		fastXml = new haxe.xml.Fast(xml.firstElement());
 		
 		//create new Tilemap and add it to the Scene
-		tilemap = new Tilemap("graphics/tileset.png", Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
+		var tilemap:Tilemap = new Tilemap("graphics/tileset.png", Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
 		add(new Entity(0, 0, tilemap));
 		
 		//add Tiles
@@ -40,6 +39,12 @@ class MainScene extends Scene
 		{
 			add(new Player(Std.parseInt(p.att.x), Std.parseInt(p.att.y)));
 		}
+		
+		//load collision grid and add it to Scene
+		var grid:Grid = new Grid(Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
+		grid.loadFromString(fastXml.node.Grid.innerData, "", "\n");
+		addMask(grid, "solid");
+		
 		
 	}
 }
