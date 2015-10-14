@@ -5,9 +5,9 @@ This is a short guide on the basic usage of Ogmo Editor for making game levels a
 
 ## Getting ready for making cool levels!
 
-* Now the first thing you will need is of course Ogmo, so head on over to http://www.ogmoeditor.com/ and click on Download!
+* Now the first thing we will need is of course Ogmo, so head on over to http://www.ogmoeditor.com/ and click on Download!
 
-* Secondly you will need to have a tileset for your level, I'll just use this one:
+* Secondly you will need to have a tileset for your level, we'll just use this one for the tutorial:
 
  ![tileset](https://raw.githubusercontent.com/voec/OgmoLoader-HaxePunk/master/example/assets/graphics/tileset.png)
 
@@ -30,7 +30,7 @@ This is a short guide on the basic usage of Ogmo Editor for making game levels a
 
 #### III
 
-* On the `Layers` tab you can add new Layers used for drawing tiles and grids and for adding entities. For this project I will use **one layer for the tilemap and one for my entities** (the player).
+* On the `Layers` tab you can add new Layers used for drawing tiles and grids and for adding entities. For this project we will use **one layer for the tilemap and one for our entities** (the player).
 
 * Create a new layer called `TileLayer` and change it's `Type` to `Tiles`.
 
@@ -44,23 +44,23 @@ This is a short guide on the basic usage of Ogmo Editor for making game levels a
 
 * Now that you have a tileset layer you'll need to add the tileset graphic on the `Tilesets` tab.
 
-* Create a new tileset, I'll just call mine `Tile`.
+* Create a new tileset, let's just call it `Tile`.
 
-* Select your tileset via `Image File` (I'll use the one I showed you earlier) and make sure `Tile Size` is again at 32x32:
+* Select your tileset via `Image File` (We'll use the one I showed you earlier) and make sure `Tile Size` is again at 32x32:
 
  ![ogmo3](https://cloud.githubusercontent.com/assets/2915643/10489155/2224cbe8-729c-11e5-92a9-9a9d00095708.png)
 
 #### V
 
-* Over on the `Entities` tab I'll add my player entity so I can place it in my level:
+* Over on the `Entities` tab we'll add our player entity so we can place it in our level:
 
  ![ogmo4](https://cloud.githubusercontent.com/assets/2915643/10489156/222be0cc-729c-11e5-9431-98fae789ce8f.png)
  
 * Just make a new entity and call it `Player`. Again change it's `Size`.
 
-* You can also change the `Limit` to `1`, this way there will be max one player entity in your level.
+* You can also change the `Limit` to `1`, this way there will be maximum of one player entity in your level.
 
-* You could also give your entity a graphic or add `Values` that we could load later one in the game, but for now we'll keep it simple.
+* You could also give your entity a graphic or add `Values` that we could load later on in the game, but for now we'll keep it simple.
 
 #### VI
 
@@ -70,7 +70,7 @@ This is a short guide on the basic usage of Ogmo Editor for making game levels a
 
 #### I
 
-* In this window you can see the different layers you just created over on the top left, your tileset in the bottom left and various tools for drawing the level on the right:
+* In this window you can see the different layers we just created over on the top left, your tileset in the bottom left and various tools for drawing the level on the right:
 
  ![ogmo5](https://cloud.githubusercontent.com/assets/2915643/10489157/222dac22-729c-11e5-8be2-0e6ea6ba75f2.png)
  
@@ -88,33 +88,137 @@ This is a short guide on the basic usage of Ogmo Editor for making game levels a
 
 * Now save the level! Click `Level → Save Level`.
 
-* I'll put my levels in a new folder in my game directory under `assets/levels/`. Safe the new level there as `level1.oel`.
+* We'll put our levels in a new folder in our game directory under `assets/levels/`. Save the new level there as `level1.oel`. If you open the file with a texteditor it will look something like this:
+
+ ````
+<level width="640" height="480">
+<TileLayer tileset="Tile" exportMode="CSV">
+3,3,6,4,4,4,4,4,4,3,3,0,1,1,1,2,1,6,3,4
+3,3,15,4,4,4,4,4,4,3,3,1,1,4,4,4,4,15,3,4
+3,3,15,3,3,3,3,3,3,3,3,1,2,4,4,4,4,15,3,4
+3,3,15,3,3,3,3,3,3,3,3,2,0,4,4,4,4,15,3,4
+3,3,15,15,15,15,15,15,15,15,15,15,15,4,4,4,4,15,3,4
+3,3,6,3,3,3,3,8,3,8,3,1,2,4,4,4,4,6,3,4
+3,3,6,3,3,3,3,3,8,3,8,1,1,4,4,4,4,6,3,4
+3,3,6,2,1,0,1,1,1,1,2,1,1,1,1,0,1,6,3,4
+3,3,6,1,1,1,2,1,14,1,1,1,0,1,2,1,1,6,3,4
+3,3,15,3,3,4,4,4,4,1,2,3,3,4,4,4,4,15,3,4
+3,3,15,3,3,4,4,4,4,1,0,3,3,4,4,4,4,15,3,4
+3,3,15,4,4,4,4,8,3,1,1,4,4,4,4,8,3,15,3,4
+3,3,15,4,4,4,4,3,8,1,1,4,4,4,4,3,8,15,3,4
+3,3,15,6,6,6,6,6,6,4,4,6,6,6,6,6,6,15,3,4
+3,3,15,3,3,3,3,3,6,4,4,6,3,3,3,3,3,15,3,4
+</TileLayer>
+ <EntityLayer>
+  <Player id="0" x="288" y="320" />
+ </EntityLayer>
+</level>
+````
+
+* You can see that it's basicly an `.xml` file! On the top we have our level information (width and height). Below that all the numbers are our `TileLayer` that we've drawn, where each number represents the tileset id at that position. And at the bottom we have the `EntityLayer` with our `Player`.
 
 ## Loading the level
 
 #### I
 
-* First things first! For your HaxePunk game to actually recognize the new level files you'll firstly need to add the path to your `project.xml`. Open it up with a text editor!
+* First things first! For your HaxePunk game to actually recognize the level files you first need to add the path to your `project.xml`, so let's open it up with our text editor!
 
 * Somewhere in there (preferably where it says `assets`) add this line:
 
-````
+ ````
 <assets path="assets/levels" rename="levels" include="*.oel" />
 ````
---------------
 
+* This tells your game to include all the `.oel` files during compile, like our `level1.oel` for example!
 
+#### II
 
-new function loadlevel()
+* You'll need to make some adjustments to your scene class, where you want your level to be loaded. This is how your barebones main `Scene` class should look:
 
-create tilemap (same dimensions as ogmo level, same tile width/height)
+ ````
+class MainScene extends Scene
+{
+	
+	private var tilemap:Tilemap;
+	
+	//helper vars for loading .oel level
+	private var xml:Xml;
+	private var fastXml:Fast;
+	
+	override public function begin()
+	{
+	 //when this scene is loaded -> load level file
+		loadlevel("levels/level1.oel");
+	}
+	
+	public function loadlevel(level:String):Void 
+	{
+			//level loading code will go here!
+	}
+	
+}
+````
 
-add Tiles with loadfromString
+* We add some helpful vars on the top for our tilemap and also for loading the xml data of the level files.
 
-add Entities with iterator
+* Then when our `MainScene` is started we call the function `loadlevel()` and point it to the correct level file.
+
+#### III
+
+* Now inside your new `loadlevel()` function add the following code:
+
+ ````
+//get the XML
+xml = Xml.parse(Assets.getText(level));
+fastXml = new haxe.xml.Fast(xml.firstElement());
+````
+
+* To read our `.oel` file into the game we just do some magic with the XML classes of Haxe. This makes it much easier for us to access all the important stuff!
+
+#### IV
+
+* Below that add this code:
+
+ ````
+//create new Tilemap and add it to the Scene
+tilemap = new Tilemap("graphics/tileset.png", Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
+add(new Entity(0, 0, tilemap));
+
+//add Tiles
+tilemap.loadFromString(fastXml.node.TileLayer.innerData, ",", "\n");
+````
+
+* The first part will create our new tilemap with the appropriate tileset graphic and also with the correct dimensions! `fastXml.att.width` reads the `width` attribute from our `.oel` level, and `fastXml.att.height` the height attribute respectively.
+
+* The last line now reads all the tile data via `fastXml.node.TileLayer.innerData`. Note that we are accessing the `TileLayer` here! If you have a look at our `.oel` file again you remember that our tile data is a long string representing our individual tiles, so we can load them with the handy `.loadFromString()` function of HaxePunk! `,` and `\n` (line break) are used as seperators in the string.
+
+* If you quickly test your game now, you will see that our level will now load and display!
+
+#### V
+
+* Now finally add these lines to also load our player:
+
+ ````
+//add Entities to the Scene
+for (p in fastXml.node.EntityLayer.nodes.Player)
+{
+	add(new Player(Std.parseInt(p.att.x), Std.parseInt(p.att.y)));
+}
+ ````
+
+* What this does is search through the `EntityLayer` looking for `Player` entities and if it finds one add it to the scene at the appropriate `x` and `y` position!
+
+ *Note: Of course I've prepared a `Player.hx` class already in my game, if you don't have one yet you'll need to make one and make it take `x` and `y` parameters. Check out the example folder for my player class.*
+
+ *Another note: Just like we iterated through all the `Player` entities here you can also do the same for all other entity types that you have in your Ogmo level, like other characters or objects.*
+
+#### VI
+
+* Now compile your game! As you can see the level is loaded and your player is also added to the scene:
 
  ![ogmo7](https://cloud.githubusercontent.com/assets/2915643/10489159/22386d56-729c-11e5-8e68-071a210aeab9.png)
 
+*  And that's it! :D
 
 ## What's missing
 
@@ -125,6 +229,9 @@ add Entities with iterator
 * Grids and collisions!
 
 * Camera stuff
+
+I might expand on this later on, or maybe even write a follow up, until then pull requests are very welcome!
+If you have any further questions or suggestions let me know. :)
 
 Also check out these links for more useful infos:
 
