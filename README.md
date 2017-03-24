@@ -248,12 +248,12 @@ for (p in fastXml.node.EntityLayer.nodes.Player)
 
 * Now save the level and back inside our scene, add the following lines of code at the end of the `loadlevel()` function:
 
-	````
+	```
 //load collision grid and add it to Scene
 var grid:Grid = new Grid(Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
 grid.loadFromString(fastXml.node.Grid.innerData, "", "\n");
 addMask(grid, "solid");
-````
+```
 
 * The first line creates a new `Grid` mask and sets it's `width` and `height` just like with the tilemap. Then we have to read the `Grid` data using `loadFromString()` again. And lastly we add our grid as a new mask to the scene, also we set the collision type to `solid`!
 
