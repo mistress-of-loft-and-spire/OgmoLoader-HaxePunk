@@ -101,7 +101,7 @@ What this tutorial covers:
 
 * We'll put our levels in a new folder in our game directory under `assets/levels/`. Save the new level there as `level1.oel`. If you open the file with a texteditor it will look something like this:
 
- ````
+ ```
 <level width="640" height="480">
 <TileLayer tileset="Tile" exportMode="CSV">
 3,3,6,4,4,4,4,4,4,3,3,0,1,1,1,2,1,6,3,4
@@ -124,7 +124,7 @@ What this tutorial covers:
   <Player id="0" x="288" y="320" />
  </EntityLayer>
 </level>
-````
+```
 
 * You can see that it's basicly an `.xml` file! On the top we have our level information (width and height). Below that all the numbers are our `TileLayer` that we've drawn, where each number represents the tileset id at that position. And at the bottom we have the `EntityLayer` with our `Player`.
 
@@ -136,9 +136,9 @@ What this tutorial covers:
 
 * Somewhere in there (preferably where it says `assets`) add this line:
 
- ````
+ ```
 <assets path="assets/levels" rename="levels" include="*.oel" />
-````
+```
 
 * This tells your game to include all the `.oel` files during compile, like our `level1.oel` for example!
 
@@ -146,7 +146,7 @@ What this tutorial covers:
 
 * You'll need to make some adjustments to your scene class, where you want your level to be loaded. This is how your barebones main `Scene` class should look:
 
- ````
+ ```
 class MainScene extends Scene
 {
 	
@@ -166,7 +166,7 @@ class MainScene extends Scene
 	}
 	
 }
-````
+```
 
 * We add some helpful vars on the top for our tilemap and also for loading the xml data of the level files.
 
@@ -176,11 +176,11 @@ class MainScene extends Scene
 
 * Now inside your new `loadlevel()` function add the following code:
 
- ````
+ ```
 //get the XML
 xml = Xml.parse(Assets.getText(level));
 fastXml = new haxe.xml.Fast(xml.firstElement());
-````
+```
 
 * To read our `.oel` file into the game we just do some magic with the XML classes of Haxe. This makes it much easier for us to access all the important stuff!
 
@@ -188,14 +188,14 @@ fastXml = new haxe.xml.Fast(xml.firstElement());
 
 * Below that add this code:
 
- ````
+ ```
 //create new Tilemap and add it to the Scene
 var tilemap:Tilemap = new Tilemap("graphics/tileset.png", Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
 add(new Entity(0, 0, tilemap));
 
 //add Tiles
 tilemap.loadFromString(fastXml.node.TileLayer.innerData, ",", "\n");
-````
+```
 
 * The first part will create our new tilemap with the appropriate tileset graphic and also with the correct dimensions! `fastXml.att.width` reads the `width` attribute from our `.oel` level, and `fastXml.att.height` the height attribute respectively.
 
@@ -207,13 +207,13 @@ tilemap.loadFromString(fastXml.node.TileLayer.innerData, ",", "\n");
 
 * Now finally add these lines to also load our player:
 
- ````
+ ```
 //add Entities to the Scene
 for (p in fastXml.node.EntityLayer.nodes.Player)
 {
 	add(new Player(Std.parseInt(p.att.x), Std.parseInt(p.att.y)));
 }
- ````
+ ```
 
 * What this does is search through the `EntityLayer` looking for `Player` entities and if it finds one add it to the scene at the appropriate `x` and `y` position!
 
@@ -248,7 +248,7 @@ for (p in fastXml.node.EntityLayer.nodes.Player)
 
 * Now save the level and back inside our scene, add the following lines of code at the end of the `loadlevel()` function:
 
-	```
+```
 //load collision grid and add it to Scene
 var grid:Grid = new Grid(Std.parseInt(fastXml.att.width), Std.parseInt(fastXml.att.height), 32, 32);
 grid.loadFromString(fastXml.node.Grid.innerData, "", "\n");
@@ -298,6 +298,7 @@ http://haxecoder.com/post.php?id=23
 
 
 ## nonlicense
+
 ```
 This work is dedicated to the public domain under CC0. https://creativecommons.org/publicdomain/zero/1.0/  
 All code of this project is licensed under the Unlicense. http://unlicense.org/UNLICENSE
